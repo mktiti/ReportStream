@@ -1,7 +1,8 @@
-package com.mktiti.reportstream
+package com.mktiti.reportstream.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.mktiti.reportstream.R
 
 class MainActivity : AppCompatActivity() {
 
