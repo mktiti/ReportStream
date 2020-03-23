@@ -21,5 +21,6 @@ data class Article(
     val title: String,
     val description: String,
     val published: LocalDateTime?,
+    val url: URI,
     val imageUrl: URI?
 )

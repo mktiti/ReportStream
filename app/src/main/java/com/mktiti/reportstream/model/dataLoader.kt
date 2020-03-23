@@ -1,4 +1,4 @@
-package com.mktiti.reportstream.service
+package com.mktiti.reportstream.model
 
 import java.net.URL
 
