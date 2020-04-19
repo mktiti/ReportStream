@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  description: |
+    Currents API for news aggregation.
+  version: "1.0.0"
+  title: Currents
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/mktiti/Currents/1.0.0
+  - url: 'https://api.currentsapi.services'
+tags:
+  - name: news
+    description: Current news
+paths:
+  "/latest-news":
+    get:
+      tags:
+        - news
+      summary: Aggregation the latest news
+      description: List aggregated news from multiple sites
+      operationId: latestNews
+      parameters:
+        - name: language
+          in: query
+          description: Language code to filter articles by
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    description: Updated status of the pet
+                    type: string
+                  news:
+                    description: List of articles
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/News'
+              example:
+                status: "ok"
+                news:
+                  - id: "ac4062d1-5fbb-4784-bf1d-123123123123"
+                    title: "Ki fogja ezt az egészet kifizetni?"
+                    description: "A leállás sokszorosan padlóra küldheti az embereket és a vállalatokat is, ezért mindenhol óriási mentőcsomagokat dobtak be. Némi késéssel mi is bejelentettük a sajátunkat, de a részleteit még nem. Nem egyértelmű még viszont, hogy pontosan hogyan fog működni az uniós közös teherviselés."
+                    url: "https://index.hu/gazdasag/2020/04/06/valsagkezeles_magyarorszag/"
+                    author: "index"
+                    image: "https://kep.cdn.indexvas.hu/1/0/3238/32380/323801/32380125_cb88f9147fe3d6f919993b9d6564cc74_wm.jpg"
+                    language: "hu"
+                    published: "2020-04-05 14:22:08 +0000"
+        '401':
+          description: Unauthorized access
+        '429':
+          description: Token limit reached
+  "/available/languages":
+    get:
+      tags:
+        - news
+      summary: List available languages
+      operationId: listAvailableLanguages
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  description:
+                    type: string
+                  languages:
+                    description: Languages
+                    type: object
+                    additionalProperties: 
+                      type: string
+              example: 
+                languages:
+                  "Arabic": "ar"
+                  "Chinese": "zh"
+                  "Dutch": "nl"
+                  "English": "en"
+                  "Finnish": "fi"
+                  "French": "fr"
+                  "German": "de"
+                  "Hindi": "hi"
+                  "Italian": "it"
+                  "Japanese": "ja"
+                  "Korean": "ko"
+                  "Malay": "msa"
+                  "Portuguese": "pt"
+                  "Russian": "ru"
+                  "Spanish": "es"
+                description: "available languages followed by query code"
+                status: "ok"
+        '401':
+          description: Unauthorized access
+        '429':
+          description: Token limit reached
+components:
+  schemas:
+    News:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        author:
+          type: string
+        image:
+          type: string
+        language:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+        published:
+          type: string
+  securitySchemes:
+      api_key:
+        type: apiKey
+        name: apiKey
+        in: header
