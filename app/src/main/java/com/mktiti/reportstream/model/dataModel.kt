@@ -3,18 +3,20 @@ package com.mktiti.reportstream.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.lang.IllegalArgumentException
 import java.lang.reflect.Type
-import java.net.URI
 import java.time.LocalDateTime
 
 data class Language(
     val name: String,
     val code: String
-)
+) {
+    override fun toString() = name
+}
 
 data class LanguagesResponse(
     val languages: List<Language>
@@ -31,8 +33,8 @@ object LanguagesDeserializer : JsonDeserializer<LanguagesResponse> {
 
         val list = languagesObj.entrySet().map { (key, value) ->
             Language(
-                name = value.asString,
-                code = key
+                name = key,
+                code = value.asString
             )
         }
 

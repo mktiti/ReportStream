@@ -14,6 +14,6 @@ interface ArticleService {
 
     @GET("latest-news")
     @Headers("Content-type: application/json")
-    fun fetchArticles(@Query("apiKey") key: String = NetModule.API_KEY, @Query("language") langFilter: Language?): Call<ArticlesResponse>
+    fun fetchArticles(@Query("apiKey") key: String = NetModule.API_KEY, @Query("language") langFilter: String?): Call<ArticlesResponse>
 
 }

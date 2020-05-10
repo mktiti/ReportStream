@@ -8,16 +8,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.URI
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 interface ArticlePresenter {
 
     val articles: LiveData<List<ArticleItem>>
 
-    fun loadLanguages(): List<LanguageOption>
+    val languages: LiveData<List<Language>>
 
-    fun loadArticles(languages: List<LanguageOption>?)
+    fun loadLanguages()
+
+    fun loadArticles(language: Language?)
 
 }
 
@@ -34,6 +35,10 @@ class ServicePresenter(
     override val articles: LiveData<List<ArticleItem>>
         get() = mutArticles
 
+    private val mutLanguages = MutableLiveData<List<Language>>()
+    override val languages: LiveData<List<Language>>
+        get() = mutLanguages
+
     private fun Article.present(): ArticleItem = ArticleItem(
         title = title,
         author = author,
@@ -43,12 +48,26 @@ class ServicePresenter(
         uri = URI.create(url)
     )
 
-    override fun loadLanguages(): List<LanguageOption> {
-        TODO("Not yet implemented")
+    override fun loadLanguages() {
+        articleService.availableLanguages().enqueue(object : Callback<LanguagesResponse> {
+            override fun onFailure(call: Call<LanguagesResponse>, t: Throwable) {
+                Log.e("Article Service Presenter", "Failed to fetch languages", t)
+                mutLanguages.value = emptyList()
+            }
+
+            override fun onResponse(
+                call: Call<LanguagesResponse>,
+                response: Response<LanguagesResponse>
+            ) {
+                Log.i("Article Service Presenter", "Fetched languages")
+                mutLanguages.value = response.body()?.languages ?: emptyList()
+            }
+
+        })
     }
 
-    override fun loadArticles(languages: List<LanguageOption>?) {
-        articleService.fetchArticles(langFilter = null).enqueue(object : Callback<ArticlesResponse> {
+    override fun loadArticles(language: Language?) {
+        articleService.fetchArticles(langFilter = language?.code).enqueue(object : Callback<ArticlesResponse> {
             override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) {
                 Log.e("Article Service Presenter", "Failed to fetch articles", t)
                 mutArticles.value = emptyList()

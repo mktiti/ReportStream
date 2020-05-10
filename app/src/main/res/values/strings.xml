@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ReportStream</string>
     <string name="article_icon">Article icon</string>
+    <string name="info_name">ReportStream v1.0</string>
+    <string name="info_description">ReportStream is a simple app that helps you stay in touch by aggregating the most important news stories of the day.</string>
+    <string name="about_action">About</string>
+    <string name="filter_language_action">Filter language</string>
+    <string name="view_in_browser">View in external app</string>
 </resources>

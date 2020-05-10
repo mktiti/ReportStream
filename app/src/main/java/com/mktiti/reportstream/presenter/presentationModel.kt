@@ -1,13 +1,8 @@
 package com.mktiti.reportstream.presenter
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import com.mktiti.reportstream.model.Language
 import java.net.URI
-
-data class LanguageOption(
-    val name: String,
-    val flag: String?
-)
 
 data class ArticleItem(
     val author: String,
