@@ -58,9 +58,9 @@ data class Article(
     val title: String,
     val description: String,
     val published: LocalDateTime?,
-    val url: URI,
+    val url: String,
     @SerializedName("image")
-    val imageUrl: URI?
+    val imageUrl: String?
 )
 
 data class ArticlesResponse(

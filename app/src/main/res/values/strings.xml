@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ReportStream</string>
+    <string name="article_icon">Article icon</string>
 </resources>
