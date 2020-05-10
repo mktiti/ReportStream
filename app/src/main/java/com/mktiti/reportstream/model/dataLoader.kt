@@ -13,9 +13,10 @@ interface DataLoader {
 object DefaultLoader : DataLoader {
 
     override fun loadBinary(uri: URI): Drawable? = try {
-        uri.toURL().openStream().use { stream ->
+        null
+/*        uri.toURL().openStream().use { stream ->
             Drawable.createFromStream(stream, "$uri")
-        }
+        }*/
     } catch (ioe: IOException) {
         null
     } catch (iae: IllegalArgumentException) {

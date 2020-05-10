@@ -1,8 +1,8 @@
 package com.mktiti.reportstream.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +12,6 @@ import com.mktiti.reportstream.R
 import com.mktiti.reportstream.db.ArticleDao
 import com.mktiti.reportstream.model.ArticleService
 import com.mktiti.reportstream.model.LanguagesResponse
-import com.mktiti.reportstream.presenter.ArticleItem
 import com.mktiti.reportstream.presenter.ArticlePresenter
 import com.mktiti.reportstream.presenter.ServicePresenter
 import retrofit2.Call
@@ -41,15 +40,21 @@ class MainActivity : AppCompatActivity() {
         articleService = retrofit.create(ArticleService::class.java)
         articlePresenter = ServicePresenter(articleService = articleService)
 
-        val articleAdapter = ArticleCardAdapter()
+        val articleAdapter = ArticleCardAdapter {
+            val intent = Intent(this, ArticleActivity::class.java).apply {
+                putExtra("address", it.toString())
+            }
+            startActivity(intent)
+        }
 
         articlePresenter.articles.observe(this, Observer { articles ->
             articleAdapter.set(articles)
         })
 
-        val articles = findViewById<RecyclerView>(R.id.articles_recycler).apply {
+        findViewById<RecyclerView>(R.id.articles_recycler).apply {
             adapter = articleAdapter
             layoutManager = LinearLayoutManager(context)
+            isClickable = true
         }
 
         articlePresenter.loadArticles(emptyList())

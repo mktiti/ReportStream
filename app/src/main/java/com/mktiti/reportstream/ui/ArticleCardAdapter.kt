@@ -8,10 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mktiti.reportstream.R
 import com.mktiti.reportstream.presenter.ArticleItem
+import java.net.URI
 
-class ArticleCardAdapter : RecyclerView.Adapter<ArticleCardAdapter.ArticleHolder>() {
 
-    class ArticleHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ArticleCardAdapter(private val onClick: (URI) -> Unit) : RecyclerView.Adapter<ArticleCardAdapter.ArticleHolder>() {
+
+    class ArticleHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        var uri: URI? = null
         val icon: ImageView = view.findViewById(R.id.icon_view)
         val title: TextView = view.findViewById(R.id.title_view)
         val author: TextView = view.findViewById(R.id.author_view)
@@ -21,13 +24,20 @@ class ArticleCardAdapter : RecyclerView.Adapter<ArticleCardAdapter.ArticleHolder
     private val articles = mutableListOf<ArticleItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
-        return ArticleHolder(LayoutInflater.from(parent.context).inflate(R.layout.article_card, parent, false))
+        return ArticleHolder(LayoutInflater.from(parent.context).inflate(R.layout.article_card, parent, false)).apply {
+            view.setOnClickListener {
+                onClick(this@ArticleCardAdapter[adapterPosition].uri)
+            }
+        }
     }
+
+    operator fun get(index: Int) = articles[index]
 
     override fun getItemCount() = articles.size
 
     override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
         with(articles[position]) {
+            holder.uri = uri
             holder.icon.setImageDrawable(image)
             holder.title.text = title
             holder.author.text = author
