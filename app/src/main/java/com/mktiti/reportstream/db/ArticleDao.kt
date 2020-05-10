@@ -2,7 +2,6 @@ package com.mktiti.reportstream.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.mktiti.reportstream.model.Article
 import com.mktiti.reportstream.model.ArticleEntity
 
 @Dao
@@ -25,4 +24,7 @@ interface ArticleDao {
 
     @Delete
     fun delete(newsEntity: ArticleEntity)
+
+    @Query("DELETE FROM articles")
+    fun deleteAll()
 }

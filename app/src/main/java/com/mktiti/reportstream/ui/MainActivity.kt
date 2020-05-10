@@ -1,6 +1,7 @@
 package com.mktiti.reportstream.ui
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mktiti.reportstream.MyApplication
 import com.mktiti.reportstream.R
 import com.mktiti.reportstream.db.ArticleDao
+import com.mktiti.reportstream.model.ArticleEntity
 import com.mktiti.reportstream.model.ArticleService
 import com.mktiti.reportstream.model.Language
 import com.mktiti.reportstream.presenter.ArticlePresenter
@@ -69,6 +71,10 @@ class MainActivity : AppCompatActivity() {
 
         articlePresenter.articles.observe(this, Observer { articles ->
             articleAdapter.set(articles)
+            AsyncTask.execute {
+                dao.deleteAll()
+                dao.insertAll(articles.map { ArticleEntity(it) })
+            }
         })
 
         articlePresenter.languages.observe(this, Observer { languages ->

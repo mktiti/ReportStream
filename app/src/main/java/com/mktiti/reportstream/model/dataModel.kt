@@ -8,6 +8,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.mktiti.reportstream.presenter.ArticleItem
 import java.lang.reflect.Type
 import java.time.LocalDateTime
 
@@ -52,7 +53,19 @@ data class ArticleEntity(
     @ColumnInfo val language: String?,
     @ColumnInfo val published: String?,
     @ColumnInfo val url: String?
-)
+) {
+
+    constructor(article: ArticleItem) : this(
+        id = article.id,
+        title = article.title,
+        description = article.description,
+        language = "",
+        image = article.image,
+        published = article.published,
+        url = article.uri.toString()
+    )
+
+}
 
 data class Article(
     val id: String,

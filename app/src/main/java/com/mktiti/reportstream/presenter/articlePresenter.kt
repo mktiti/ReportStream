@@ -7,6 +7,7 @@ import com.mktiti.reportstream.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.net.URI
 import java.time.format.DateTimeFormatter
 
@@ -39,14 +40,21 @@ class ServicePresenter(
     override val languages: LiveData<List<Language>>
         get() = mutLanguages
 
-    private fun Article.present(): ArticleItem = ArticleItem(
-        title = title,
-        author = author,
-        description = description,
-        published = published?.let { dateFormat.format(it) },
-        image = imageUrl, //imageUrl?.let { dataLoader.loadBinary(URI.create(it)) },
-        uri = URI.create(url)
-    )
+    private fun Article.present(): ArticleItem? {
+        return ArticleItem(
+            id = id,
+            title = title,
+            author = author,
+            description = description,
+            published = published?.let { dateFormat.format(it) },
+            image = imageUrl, //imageUrl?.let { dataLoader.loadBinary(URI.create(it)) },
+            uri = try {
+                URI.create(url)
+            } catch (e: Exception) {
+                return null
+            }
+        )
+    }
 
     override fun loadLanguages() {
         articleService.availableLanguages().enqueue(object : Callback<LanguagesResponse> {
@@ -78,7 +86,7 @@ class ServicePresenter(
                 response: Response<ArticlesResponse>
             ) {
                 Log.i("Article Service Presenter", "Fetched articles")
-                mutArticles.value = response.body()?.news?.map { it.present() } ?: emptyList()
+                mutArticles.value = response.body()?.news?.mapNotNull { it.present() } ?: emptyList()
             }
 
         })
