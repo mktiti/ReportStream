@@ -44,7 +44,7 @@ class ServicePresenter(
         author = author,
         description = description,
         published = published?.let { dateFormat.format(it) },
-        image = imageUrl?.let { dataLoader.loadBinary(URI.create(it)) },
+        image = imageUrl, //imageUrl?.let { dataLoader.loadBinary(URI.create(it)) },
         uri = URI.create(url)
     )
 

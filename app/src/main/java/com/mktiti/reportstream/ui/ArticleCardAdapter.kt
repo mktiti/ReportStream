@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mktiti.reportstream.R
 import com.mktiti.reportstream.presenter.ArticleItem
+import com.squareup.picasso.Picasso
 import java.net.URI
-
 
 class ArticleCardAdapter(private val onClick: (URI) -> Unit) : RecyclerView.Adapter<ArticleCardAdapter.ArticleHolder>() {
 
@@ -38,10 +38,15 @@ class ArticleCardAdapter(private val onClick: (URI) -> Unit) : RecyclerView.Adap
     override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
         with(articles[position]) {
             holder.uri = uri
-            holder.icon.setImageDrawable(image)
+            //holder.icon.setImageDrawable(image)
             holder.title.text = title
             holder.author.text = author
             holder.date.text = published ?: ""
+            if (image == null) {
+                holder.icon.setImageDrawable(null)
+            } else {
+                Picasso.get().load(image).resize(200, 200).into(holder.icon)
+            }
         }
     }
 

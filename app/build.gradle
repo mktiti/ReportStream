@@ -57,4 +57,5 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:2.23"
     kapt "com.google.dagger:dagger-android-processor:2.23"
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
