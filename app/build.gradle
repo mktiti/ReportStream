@@ -12,6 +12,10 @@ android {
         sourceCompatibility = "8"
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         applicationId "com.mktiti.reportstream"
         minSdkVersion 26

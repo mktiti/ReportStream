@@ -73,6 +73,7 @@ data class Article(
     val title: String,
     val description: String,
     val published: LocalDateTime?,
+    val language: String?,
     val url: String,
     @SerializedName("image")
     val imageUrl: String?

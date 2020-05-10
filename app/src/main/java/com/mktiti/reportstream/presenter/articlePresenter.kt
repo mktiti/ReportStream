@@ -24,7 +24,6 @@ interface ArticlePresenter {
 }
 
 class ServicePresenter(
-    private val dataLoader: DataLoader = DefaultLoader,
     private val articleService: ArticleService
 ) : ArticlePresenter {
 
@@ -47,7 +46,7 @@ class ServicePresenter(
             author = author,
             description = description,
             published = published?.let { dateFormat.format(it) },
-            image = imageUrl, //imageUrl?.let { dataLoader.loadBinary(URI.create(it)) },
+            image = imageUrl,
             uri = try {
                 URI.create(url)
             } catch (e: Exception) {
