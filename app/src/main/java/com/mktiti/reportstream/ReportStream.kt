@@ -4,7 +4,7 @@ import android.app.Application
 import com.mktiti.reportstream.db.DbModule
 import com.mktiti.reportstream.network.NetModule
 
-class MyApplication : Application() {
+class ReportStream : Application() {
 
     lateinit var appComponent: AppComponent
 

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mktiti.reportstream.MyApplication
+import com.mktiti.reportstream.ReportStream
 import com.mktiti.reportstream.R
 import com.mktiti.reportstream.db.ArticleDao
 import com.mktiti.reportstream.model.ArticleEntity
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        (application as MyApplication).appComponent.inject(this)
+        (application as ReportStream).appComponent.inject(this)
         articleService = retrofit.create(ArticleService::class.java)
         articlePresenter = ServicePresenter(articleService = articleService)
 
